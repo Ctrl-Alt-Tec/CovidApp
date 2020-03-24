@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HackQuarantine</title>
+    <!--Aquí están los estilos (colores, bordes, etc)-->
+    <style>
+        #map{
+            width: 300px;
+            height: 300px;
+            border: 1px solid;
+            position: relative;
+        }
+        .patient{
+            width: 5px;
+            height: 5px;
+            position: absolute;
+            display: inline-block;
+            background: black;
+        }
+    </style>
+</head>
+<body>
+    <!--Título-->
+    <h1>HackQuarantine</h1>
+    By:
+    <!--Integrantes-->
+    <ul>
+        <li>Matías Sandoval</li>
+        <li>Fer Nava</li>
+        <li>Ricardo Uraga</li>
+        <li>Eduardo Villalpando</li>
+    </ul>
+    <!--En este elemento se mostrarán los pacientes-->
+    <div id="map"></div>
+    <!--Botón; al hacer click se ejecutará la función updateLocation()-->
+    <button id="updatelocation" onclick="updateLocation()">Update location</button>
+    <!--Acá está el código con la lógica del programa-->
+    <script>
+        // ESTO ES UN ARRAY CON LOS DATOS DE CADA PACIENTE: su id, lat, long, y probabilidad de estar infectadx
+        let patients = [
+            { id: 'p0', latitude: 295, longitude: 295, infected: 0.75},
+            { id: 'p1', latitude: 40, longitude: 50, infected: 0},
+            { id: 'p2', latitude: 50, longitude: 20, infected: 0},
+            { id: 'p3', latitude: 20, longitude: 30, infected: 0},
+            { id: 'p4', latitude: 20, longitude: 30, infected: 0},
+            { id: 'p5', latitude: 20, longitude: 30, infected: 0},
+            { id: 'p6', latitude: 20, longitude: 30, infected: 0},
+            { id: 'p7', latitude: 20, longitude: 30, infected: 0},
+            { id: 'p8', latitude: 20, longitude: 30, infected: 0},
+        ]
+
+
+        //Esta es una función que itera por cada paciente, y crea un puntito en el mapa
+        function renderPatients(){
+            //Seleccionar div con id #map y vacias
+            let map = document.querySelector('#map');
+            map.innerHTML = '';
+            patients.forEach(l=>{
+                //Crear puntito
+                let patient = document.createElement('div');
+                patient.className = 'patient';
+                //Asignar posicion según coordenadas
+                patient.style.left = l.latitude+'px';
+                patient.style.top = l.longitude+'px';
+                //Añadir texto
+                patient.innerText = l.id;
+                //Añadir puntito al mapa
+                map.append(patient)
+            })
+        }
+
+        // Esta función itera por cada paciente y les asigna nuevas coordenadas aleatorias
+        function updateLocation(){
+            patients.forEach(l=>{
+                l.latitude = Math.random() * 300;
+                l.longitude = Math.random() * 300;
+            })
+            renderPatients()
+        }
+
+        updateLocation()
+        renderPatients()
+    </script>
+</body>
+</html>
