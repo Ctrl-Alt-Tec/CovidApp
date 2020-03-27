@@ -80,20 +80,20 @@ crossorigin=""></script>
 
         // ESTO ES UN ARRAY CON LOS DATOS DE CADA PACIENTE: su id, lat, long, y probabilidad de estar infectadx
         let patients = [
-            {id: 1, coords: [19.432708, -99.133309], infection: 0},
-            {id: 2, coords: [19.434703, -99.123209], infection: 0},
-            {id: 3, coords: [19.432703, -99.143202], infection: 0},
-            {id: 4, coords: [19.442703, -99.146202], infection: 0},
-            {id: 5, coords: [19.442303, -99.142202], infection: 0},
-            {id: 6, coords: [19.482303, -99.142202], infection: 0},
-            {id: 7, coords: [19.422303, -99.142202], infection: 0},
-            {id: 1, coords: [19.432728, -99.133319], infection: 0},
-            {id: 2, coords: [19.434723, -99.123219], infection: 0},
-            {id: 3, coords: [19.432723, -99.143212], infection: 0},
-            {id: 4, coords: [19.442723, -99.146212], infection: 0},
-            {id: 5, coords: [19.442323, -99.142212], infection: 0},
-            {id: 6, coords: [19.482323, -99.142212], infection: 0},
-            {id: 7, coords: [19.422323, -99.142212], infection: 0},
+            {id: 0, coords: [19.432708, -99.133309], infection: 0},
+            {id: 1, coords: [19.434703, -99.123209], infection: 0},
+            {id: 2, coords: [19.432703, -99.143202], infection: 0},
+            {id: 3, coords: [19.442703, -99.146202], infection: 0},
+            {id: 4, coords: [19.442303, -99.142202], infection: 0},
+            {id: 5, coords: [19.482303, -99.142202], infection: 0},
+            {id: 6, coords: [19.422303, -99.142202], infection: 0},
+            {id: 7, coords: [19.432728, -99.133319], infection: 0},
+            {id: 8, coords: [19.434723, -99.123219], infection: 0},
+            {id: 9, coords: [19.432723, -99.143212], infection: 0},
+            {id: 10, coords: [19.442723, -99.146212], infection: 0},
+            {id: 11, coords: [19.442323, -99.142212], infection: 0},
+            {id: 12, coords: [19.482323, -99.142212], infection: 0},
+            {id: 13, coords: [19.422323, -99.142212], infection: 0},
         ] 
         //esta línea de código incializa el mapa en londres
         var map = L.map('mapid').setView([19.432608, -99.133209], 13)
@@ -144,6 +144,10 @@ crossorigin=""></script>
             if( map.distance(newCoords, nearestPoint[1].coords) < radius){
                 console.log("%c Infection", "font-size: 2em")
                 alert("Infección 🦠")
+                // El´índice de la persona infectada
+                let infected_id = nearestPoint[1].id;
+                // Se accede a la persona infectada mediante patients[infected_id]
+                // DO: @fer, aquí va lo de aumentar la probabilidad
 
             } else {
                 console.log("%c Clean", "font-size: 2em; color: green")
