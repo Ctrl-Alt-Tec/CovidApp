@@ -25,6 +25,7 @@ crossorigin=""></script>
             display: flex;
             flex-direction: column;
         }
+        /*Encabezado*/
         #header{
             padding: 18px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
@@ -32,9 +33,19 @@ crossorigin=""></script>
             z-index: 2;
             position: relative;
         }
+        /*Mapa*/
         #mapid { 
             flex: 1;
             z-index: 1;
+        }
+        /*Botón dentro de mapa*/
+        #mapid button{
+            margin: 16px;
+            padding: 8px;
+            position: absolute;
+            z-index: 999;
+            font-size: 2em;
+            bottom: 16px;
         }
 
         .patient{
@@ -49,23 +60,41 @@ crossorigin=""></script>
 <body>
     <!--Header-->
     <div id="header">
-        CovidApp
+        CovidApp. <small>By Matías Sandoval, Fer Nava, Ricardo Uraga, Eduardo Villalpando</small>
     </div>
    <!--mapa leafts-->
-    <div id="mapid"></div>
+    <div id="mapid">
+        <button>Actualizar ubicación</button>
+    </div>
     <!--Acá está el código con la lógica del programa-->
     <script>
+
+        // Límites de la ciudad de mexico
+        const mexicoCityBoundaries = {
+            minLat: 19.00,
+            maxLat: 19.40,
+            minLong: -98.8,
+            maxLong: -99.4,
+        }
+        const radius = 3000;
+
         // ESTO ES UN ARRAY CON LOS DATOS DE CADA PACIENTE: su id, lat, long, y probabilidad de estar infectadx
         let patients = [
-            {id: 1, coords: [19.432708, -99.133309]},
-            {id: 2, coords: [19.434703, -99.123209]},
-            {id: 3, coords: [19.432703, -99.143202]},
-            {id: 4, coords: [19.442703, -99.146202]},
-            {id: 5, coords: [19.442303, -99.142202]},
-            {id: 6, coords: [19.482303, -99.142202]},
-            {id: 7, coords: [19.422303, -99.142202]},
-        ]
-
+            {id: 1, coords: [19.432708, -99.133309], infection: 0},
+            {id: 2, coords: [19.434703, -99.123209], infection: 0},
+            {id: 3, coords: [19.432703, -99.143202], infection: 0},
+            {id: 4, coords: [19.442703, -99.146202], infection: 0},
+            {id: 5, coords: [19.442303, -99.142202], infection: 0},
+            {id: 6, coords: [19.482303, -99.142202], infection: 0},
+            {id: 7, coords: [19.422303, -99.142202], infection: 0},
+            {id: 1, coords: [19.432728, -99.133319], infection: 0},
+            {id: 2, coords: [19.434723, -99.123219], infection: 0},
+            {id: 3, coords: [19.432723, -99.143212], infection: 0},
+            {id: 4, coords: [19.442723, -99.146212], infection: 0},
+            {id: 5, coords: [19.442323, -99.142212], infection: 0},
+            {id: 6, coords: [19.482323, -99.142212], infection: 0},
+            {id: 7, coords: [19.422323, -99.142212], infection: 0},
+        ] 
         //esta línea de código incializa el mapa en londres
         var map = L.map('mapid').setView([19.432608, -99.133209], 13)
         L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
@@ -75,14 +104,52 @@ crossorigin=""></script>
             zoomOffset: -1
         }).addTo(map);
 
-        patients.forEach(l=>{
-            //Aquí creamos un marcador para cada elemento
-            L.marker(l.coords).addTo(map)
-                .bindPopup(JSON.stringify(l)) //Aquí creamos una ventana cada que se de click al marcador
+        //Para cada elemento de patients, genera un marcador en el mapa
+        let markers = patients.map(l=>(
+            L.marker(l.coords) // Crea marcador con coordenadas
+                .addTo(map) // Lo añade al mapa
+                .bindPopup(JSON.stringify(l)) // Le asigna un popup
+        ));
 
+
+        //Ejecutar código cada que se presione el botón
+        document.querySelector('button').addEventListener('click', ()=>{
+            //Decide cuántas personas cambiarán de ubivación
+            let randomCounter = Math.floor(Math.random()*(5 + 1)+1);
+            //Ejecuta elcódigo para cada persona
+            for (let i = 0; i < randomCounter; i++) {
+                // Escoge un índice al azar
+                let randomIndex = Math.floor(Math.random()*patients.length);
+                //Ejecuta la funcón change location
+                changeLocation(randomIndex)
+            }
+
+            
         })
 
+        function changeLocation(id){
+            // Genera coordenadas aleatorias
+            let newCoords = [
+                Math.random()*(mexicoCityBoundaries.maxLat - mexicoCityBoundaries.minLat) + mexicoCityBoundaries.minLat,
+                Math.random()*(mexicoCityBoundaries.maxLong - mexicoCityBoundaries.minLong) + mexicoCityBoundaries.minLong
+            ]
+            // Mueve el marcador en el mapa
+            markers[id].setLatLng(newCoords);
+            //Actualiza las coordenadas en los datos
+            patients[id].coords = newCoords;
+            //Crea una copia temporal de patients
+            let nearestPoint = [...patients]
+                .sort((a, b) => map.distance(newCoords, a.coords) - map.distance(newCoords, b.coords) ) // Los ordena de acuerdo a su distancia
 
+            if( map.distance(newCoords, nearestPoint[1].coords) < radius){
+                console.log("%c Infection", "font-size: 2em")
+                alert("Infección 🦠")
+
+            } else {
+                console.log("%c Clean", "font-size: 2em; color: green")
+            }
+            //console.table(nearestPoint)
+        }
 
 
 
