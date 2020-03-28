@@ -80,20 +80,20 @@ crossorigin=""></script>
 
         // ESTO ES UN ARRAY CON LOS DATOS DE CADA PACIENTE: su id, lat, long, y probabilidad de estar infectadx
         let patients = [
-            {id: 0, coords: [19.432708, -99.133309], infection: 0},
-            {id: 1, coords: [19.434703, -99.123209], infection: 0},
-            {id: 2, coords: [19.432703, -99.143202], infection: 0},
-            {id: 3, coords: [19.442703, -99.146202], infection: 0},
-            {id: 4, coords: [19.442303, -99.142202], infection: 0},
-            {id: 5, coords: [19.482303, -99.142202], infection: 0},
-            {id: 6, coords: [19.422303, -99.142202], infection: 0},
-            {id: 7, coords: [19.432728, -99.133319], infection: 0},
-            {id: 8, coords: [19.434723, -99.123219], infection: 0},
-            {id: 9, coords: [19.432723, -99.143212], infection: 0},
-            {id: 10, coords: [19.442723, -99.146212], infection: 0},
-            {id: 11, coords: [19.442323, -99.142212], infection: 0},
-            {id: 12, coords: [19.482323, -99.142212], infection: 0},
-            {id: 13, coords: [19.422323, -99.142212], infection: 0},
+            {id: 0, coords: [19.432708, -99.133309], infection: 1/3, recents: []},
+            {id: 1, coords: [19.434703, -99.123209], infection: 0, recents: []},
+            {id: 2, coords: [19.432703, -99.143202], infection: 0, recents: []},
+            {id: 3, coords: [19.442703, -99.146202], infection: 0, recents: []},
+            {id: 4, coords: [19.442303, -99.142202], infection: 0, recents: []},
+            {id: 5, coords: [19.482303, -99.142202], infection: 0, recents: []},
+            {id: 6, coords: [19.422303, -99.142202], infection: 0, recents: []},
+            {id: 7, coords: [19.432728, -99.133319], infection: 0, recents: []},
+            {id: 8, coords: [19.434723, -99.123219], infection: 0, recents: []},
+            {id: 9, coords: [19.432723, -99.143212], infection: 0, recents: []},
+            {id: 10, coords: [19.442723, -99.146212], infection: 0, recents: []},
+            {id: 11, coords: [19.442323, -99.142212], infection: 0, recents: []},
+            {id: 12, coords: [19.482323, -99.142212], infection: 0, recents: []},
+            {id: 13, coords: [19.422323, -99.142212], infection: 0, recents: []},
         ] 
         //esta línea de código incializa el mapa en londres
         var map = L.map('mapid').setView([19.432608, -99.133209], 13)
@@ -104,11 +104,26 @@ crossorigin=""></script>
             zoomOffset: -1
         }).addTo(map);
 
+        let iconSick = L.icon({
+            iconUrl: 'virus.png', 
+            iconSize: [40,40],
+        })
+        let iconHappy = L.icon({
+            iconUrl: 'happy.png', 
+            iconSize: [40,40],
+        })
+
+
+
         //Para cada elemento de patients, genera un marcador en el mapa
         let markers = patients.map(l=>(
             L.marker(l.coords) // Crea marcador con coordenadas
                 .addTo(map) // Lo añade al mapa
                 .bindPopup(JSON.stringify(l)) // Le asigna un popup
+                .setIcon((()=>{
+                    if(l.infection>0){ return iconSick }
+                    else { return iconHappy }
+                })())
         ));
 
 
@@ -143,11 +158,21 @@ crossorigin=""></script>
 
             if( map.distance(newCoords, nearestPoint[1].coords) < radius){
                 console.log("%c Infection", "font-size: 2em")
-                alert("Infección 🦠")
-                // El´índice de la persona infectada
+                //alert("Infección 🦠")
                 let infected_id = nearestPoint[1].id;
-                // Se accede a la persona infectada mediante patients[infected_id]
-                // DO: @fer, aquí va lo de aumentar la probabilidad
+                //patients[id].recents.push(infected_id);
+                //patients[infected_id].recents.push(id);
+                patients[id].infection += (1/3)*patients[infected_id].infection;
+                patients[infected_id].infection += (1/3)*patients[id].infection;
+                
+                console.log(patients[id].infection, patients[infected_id].infection)
+
+                if(patients[id].infection > 0){
+                    markers[id].setIcon(iconSick)
+                }
+                if(patients[infected_id]>0){
+                    markers[infected_id].setIcon(iconSick)
+                }
 
             } else {
                 console.log("%c Clean", "font-size: 2em; color: green")
@@ -155,7 +180,9 @@ crossorigin=""></script>
             //console.table(nearestPoint)
         }
 
+        function diagnoseSick(id){
 
+        }
 
     </script>
 </body>
