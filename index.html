@@ -47,7 +47,18 @@ crossorigin=""></script>
             font-size: 2em;
             bottom: 16px;
         }
-
+        /*Datos de probabilidad*/
+        #probabilidad{
+            position: absolute;
+            bottom: 16px;
+            right: 16px;
+            z-index: 999;
+            font-size: 1em;
+            bottom: 16px;
+            background: white;
+            padding: 8px;
+        }
+        /*Pacientes*/
         .patient{
             width: 5px;
             height: 5px;
@@ -57,6 +68,7 @@ crossorigin=""></script>
         }
     </style>
 </head>
+
 <body>
     <!--Header-->
     <div id="header">
@@ -65,6 +77,19 @@ crossorigin=""></script>
    <!--mapa leafts-->
     <div id="mapid">
         <button>Actualizar ubicación</button>
+    </div>
+    <!--datos de probabilidad de contagio-->
+    <div id= "probabilidad">
+        <table> <!--tablas--> 
+            <tr> <!--columna--> 
+                <td>Parobalidad de Conragio al Aire Libre: </td> <!--fila 1--> 
+                <td>33.33%, 1 de cada 3 personas</td><!--fila 2--> 
+            </tr>
+            <tr>
+                <td>Probabilidad de Contagio en Lugares Cerrados: </td>
+                <td>55.55%, 5 de cada 9 personas</td>
+            </tr>
+        </table>
     </div>
     <!--Acá está el código con la lógica del programa-->
     <script>
