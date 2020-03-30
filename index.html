@@ -25,6 +25,9 @@ crossorigin=""></script>
             display: flex;
             flex-direction: column;
         }
+        hr{
+            width: 100%;
+        }
         /*Encabezado*/
         #header{
             padding: 18px;
@@ -48,7 +51,7 @@ crossorigin=""></script>
             bottom: 16px;
         }
         /*Datos de probabilidad*/
-        #probabilidad{
+        #window{
             position: absolute;
             bottom: 16px;
             right: 16px;
@@ -56,7 +59,24 @@ crossorigin=""></script>
             font-size: 1em;
             bottom: 16px;
             background: white;
+            padding: 16px;
+            font-family: Arial, Helvetica, sans-serif;
+            display: flex;
+            flex-direction: column;
+            width: 400px;
+        }
+
+        #window button{
             padding: 8px;
+            font-size: 1em;
+        }
+
+        #window h1{
+            margin: 0px;
+            margin-top: 1em;
+            font-size: 1.6em;
+            margin-bottom: 0.4em;
+            color: rgb(160,160,160);
         }
         /*Pacientes*/
         .patient{
@@ -66,30 +86,85 @@ crossorigin=""></script>
             display: inline-block;
             background: black;
         }
+
+        .data_row{
+            display: flex;
+        }
+        .data_row>.data_cell{
+            flex: 1;
+        }
+        .data_row .data_number{
+            margin: 0px;
+            font-weight: 600;
+            font-size: 2.5em;
+        }
+        .data_row .data_description{
+            font-weight: 600;
+            color: rgb(100,100,100);
+        }
     </style>
 </head>
 
 <body>
     <!--Header-->
     <div id="header">
-        CovidApp. <small>By Matías Sandoval, Fer Nava, Ricardo Uraga, Eduardo Villalpando</small>
+        CovidApp.
     </div>
    <!--mapa leafts-->
     <div id="mapid">
-        <button>Actualizar ubicación</button>
     </div>
     <!--datos de probabilidad de contagio-->
-    <div id= "probabilidad">
-        <table> <!--tablas--> 
-            <tr> <!--columna--> 
-                <td>Parobalidad de Conragio al Aire Libre: </td> <!--fila 1--> 
-                <td>33.33%, 1 de cada 3 personas</td><!--fila 2--> 
-            </tr>
-            <tr>
-                <td>Probabilidad de Contagio en Lugares Cerrados: </td>
-                <td>55.55%, 5 de cada 9 personas</td>
-            </tr>
-        </table>
+    <div id= "window">
+
+        <button>Actualizar ubicación</button>
+        <br>
+
+        <div id="data" class="data_row">
+            <div class="data_cell">
+                <h2 class="data_number" id="simulation_cases"></h2>
+                <span class="data_description">Casos</h2>
+            </div>
+            <div class="data_cell">
+                <h2 class="data_number" id="simulation_population"></h2>
+                <span class="data_description">Población</span>
+            </div>
+        </div>
+        <hr>
+        <h1>Probabilidades de contagio</h1>
+        <div id="data" class="data_row">
+            <div class="data_cell">
+                <h2 class="data_number">33.33%</h2>
+                <span class="data_description">Al aire libre</h2>
+            </div>
+            <div class="data_cell">
+                <h2 class="data_number">55.55%</h2>
+                <span class="data_description">En lugares cerrados</span>
+            </div>
+        </div>
+
+        <h1>El día de hoy</h1>
+        <div id="data" class="data_row">
+            <div class="data_cell">
+                <h2 class="data_number" id="data_cases" style="color: rgb(255,149,0)">N.D.</h2>
+                <span class="data_description">Casos</h2>
+            </div>
+            <div class="data_cell">
+                <h2 class="data_number" id="data_recoveries" style="color: rgb(52, 19, 89)">N.D.</h2>
+                <span class="data_description">Recuperad@s</span>
+            </div>
+            <div class="data_cell">
+                <h2 class="data_number" id="data_deaths" style="color: rgb(255, 5, 48)">N.D.</h2>
+                <span class="data_description">Muertes</span>
+            </div>
+        </div>
+
+        <p id="credits" style="text-align: center;">
+            <br>
+            <br>
+            Matías Sandoval, Fer Nava, Ricardo Uraga, Eduardo Villalpando <br>
+            Made with 💙 by <a href="https://ctrl-alt-tec.hackclub.com">Ctrl Alt Tec</a>
+        </p>
+
     </div>
     <!--Acá está el código con la lógica del programa-->
     <script>
@@ -112,13 +187,13 @@ crossorigin=""></script>
             {id: 4, coords: [19.442303, -99.142202], infection: 0, recents: []},
             {id: 5, coords: [19.482303, -99.142202], infection: 0, recents: []},
             {id: 6, coords: [19.422303, -99.142202], infection: 0, recents: []},
-            {id: 7, coords: [19.432728, -99.133319], infection: 0, recents: []},
-            {id: 8, coords: [19.434723, -99.123219], infection: 0, recents: []},
-            {id: 9, coords: [19.432723, -99.143212], infection: 0, recents: []},
-            {id: 10, coords: [19.442723, -99.146212], infection: 0, recents: []},
-            {id: 11, coords: [19.442323, -99.142212], infection: 0, recents: []},
-            {id: 12, coords: [19.482323, -99.142212], infection: 0, recents: []},
-            {id: 13, coords: [19.422323, -99.142212], infection: 0, recents: []},
+            {id: 7, coords: [19.432728, -99.132539], infection: 0, recents: []},
+            {id: 8, coords: [19.434723, -99.122539], infection: 0, recents: []},
+            {id: 9, coords: [19.432723, -99.142532], infection: 0, recents: []},
+            {id: 10, coords: [19.442723, -99.125312], infection: 0, recents: []},
+            {id: 11, coords: [19.442323, -99.125312], infection: 0, recents: []},
+            {id: 12, coords: [19.482323, -99.125312], infection: 0, recents: []},
+            {id: 13, coords: [19.422323, -99.125312], infection: 0, recents: []},
         ] 
         //esta línea de código incializa el mapa en londres
         var map = L.map('mapid').setView([19.432608, -99.133209], 13)
@@ -150,6 +225,9 @@ crossorigin=""></script>
                     else { return iconHappy }
                 })())
         ));
+
+        document.querySelector("#simulation_population").innerHTML = patients.length
+        document.querySelector("#simulation_cases").innerHTML = patients.filter(l=>l.infection>0).length
 
 
         //Ejecutar código cada que se presione el botón
@@ -190,14 +268,17 @@ crossorigin=""></script>
                 patients[id].infection += (1/3)*patients[infected_id].infection;
                 patients[infected_id].infection += (1/3)*patients[id].infection;
                 
-                console.log(patients[id].infection, patients[infected_id].infection)
+                console.log(patients[id], patients[infected_id])
 
                 if(patients[id].infection > 0){
-                    markers[id].setIcon(iconSick)
+                    markers[id].setIcon(iconSick).setPopupContent(JSON.stringify(patients[id]))
                 }
                 if(patients[infected_id]>0){
-                    markers[infected_id].setIcon(iconSick)
+                    markers[infected_id].setIcon(iconSick).setPopupContent(JSON.stringify(patients[infected_id]))
                 }
+
+            document.querySelector("#simulation_cases").innerHTML = patients.filter(l=>l.infection>0).length
+
 
             } else {
                 console.log("%c Clean", "font-size: 2em; color: green")
@@ -208,6 +289,24 @@ crossorigin=""></script>
         function diagnoseSick(id){
 
         }
+
+        function getDataMX(){
+            fetch('https://thevirustracker.com/free-api?countryTimeline=MX').then(data=>data.json()).then(data=>{
+                //console.log(data.timelineitems[0])
+                let allDates = Object.keys(data.timelineitems[0]).filter(l=>l!="stat").sort((a,b)=>new Date(a)-new Date(b))
+                let today = [...allDates].pop()
+
+
+                let todayData = data.timelineitems[0][today]
+                console.log(todayData)
+
+                document.querySelector('#data_cases').innerHTML = todayData.total_cases;
+                document.querySelector('#data_recoveries').innerHTML = todayData.total_recoveries;
+                document.querySelector('#data_deaths').innerHTML = todayData.total_deaths;
+            })
+        }
+
+        getDataMX()
 
     </script>
 </body>
