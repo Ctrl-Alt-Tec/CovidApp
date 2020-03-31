@@ -82,7 +82,7 @@ crossorigin=""></script>
     <div id= "probabilidad">
         <table> <!--tablas--> 
             <tr> <!--columna--> 
-                <td>Parobalidad de Conragio al Aire Libre: </td> <!--fila 1--> 
+                <td>Probalidad de Conragio al Aire Libre: </td> <!--fila 1--> 
                 <td>33.33%, 1 de cada 3 personas</td><!--fila 2--> 
             </tr>
             <tr>
@@ -91,8 +91,12 @@ crossorigin=""></script>
             </tr>
         </table>
     </div>
+
+    
     <!--Acá está el código con la lógica del programa-->
     <script>
+
+        
 
         // Límites de la ciudad de mexico
         const mexicoCityBoundaries = {
@@ -120,7 +124,7 @@ crossorigin=""></script>
             {id: 12, coords: [19.482323, -99.142212], infection: 0, recents: []},
             {id: 13, coords: [19.422323, -99.142212], infection: 0, recents: []},
         ] 
-        //esta línea de código incializa el mapa en londres
+        //esta línea de código incializa el mapa de CDMX
         var map = L.map('mapid').setView([19.432608, -99.133209], 13)
         L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
             maxZoom: 18,
@@ -208,6 +212,15 @@ crossorigin=""></script>
         function diagnoseSick(id){
 
         }
+
+        //Funcion para obtener geolocacilacion
+
+        if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position){
+                  console.log(position);
+                  $.get( "http://maps.googleapis.com/maps/api/geocode/json?latlng="+ position.coords.latitude + "," + position.coords.longitude +"&sensor=false", function(data) {
+                    console.log(data);
+                  })
 
     </script>
 </body>
