@@ -112,8 +112,8 @@ if (navigator.geolocation) { //check if geolocation is available
         }
         const radius = 3000;
 
-       // var latitudeUser =  position.coords.latitude;
-        //var longitudUser = position.coords.longitude;
+        var latitudeUser =  position.coords.latitude;
+        var longitudUser = position.coords.longitude;
         // ESTO ES UN ARRAY CON LOS DATOS DE CADA PACIENTE: su id, lat, long, y probabilidad de estar infectadx
         let patients = [
             {id: 0, coords: [19.432708, -99.133309], infection: 1/3, recents: []},
@@ -130,7 +130,7 @@ if (navigator.geolocation) { //check if geolocation is available
             {id: 11, coords: [19.442323, -99.142212], infection: 0, recents: []},
             {id: 12, coords: [19.482323, -99.142212], infection: 0, recents: []},
             {id: 13, coords: [19.422323, -99.142212], infection: 0, recents: []}
-            //{id: 14, coords: [position.coords.latitude,position.coords.latitude], infection: 0, recents: []}
+            {id: 14, coords: [latitudeUser,longitudUser], infection: 0, recents: []}
 
         ] 
         //esta línea de código incializa el mapa de CDMX
