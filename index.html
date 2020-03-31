@@ -96,17 +96,12 @@ crossorigin=""></script>
     <!--Acá está el código con la lógica del programa-->
     <script>
         
-
-        //Funcion para obtener geolocacilacion
-         if (navigator.geolocation) { //check if geolocation is available
+//Funcion para obtener geolocacilacion
+if (navigator.geolocation) { //check if geolocation is available
                 navigator.geolocation.getCurrentPosition(function(position){
                   console.log(position);
                 });   
             }
-
-        //guardamos las coordenadas del usuario   
-        var latitudeUser =  position.coords.latitude;
-        var longitudUser = position.coords.longitude;
 
         // Límites de la ciudad de mexico
         const mexicoCityBoundaries = {
@@ -117,6 +112,8 @@ crossorigin=""></script>
         }
         const radius = 3000;
 
+       // var latitudeUser =  position.coords.latitude;
+        //var longitudUser = position.coords.longitude;
         // ESTO ES UN ARRAY CON LOS DATOS DE CADA PACIENTE: su id, lat, long, y probabilidad de estar infectadx
         let patients = [
             {id: 0, coords: [19.432708, -99.133309], infection: 1/3, recents: []},
@@ -132,8 +129,8 @@ crossorigin=""></script>
             {id: 10, coords: [19.442723, -99.146212], infection: 0, recents: []},
             {id: 11, coords: [19.442323, -99.142212], infection: 0, recents: []},
             {id: 12, coords: [19.482323, -99.142212], infection: 0, recents: []},
-            {id: 13, coords: [19.422323, -99.142212], infection: 0, recents: []},
-            {id: 14, coords: [latitudeUser,longitudUser], infection: 0, recents: []}
+            {id: 13, coords: [19.422323, -99.142212], infection: 0, recents: []}
+            //{id: 14, coords: [position.coords.latitude,position.coords.latitude], infection: 0, recents: []}
 
         ] 
         //esta línea de código incializa el mapa de CDMX
@@ -224,6 +221,10 @@ crossorigin=""></script>
         function diagnoseSick(id){
 
         }
+    
+
+        //guardamos las coordenadas del usuario   
+        
 
     </script>
 </body>
