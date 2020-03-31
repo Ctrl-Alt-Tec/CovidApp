@@ -237,7 +237,7 @@ crossorigin=""></script>
             //Ejecuta elcódigo para cada persona
             for (let i = 0; i < randomCounter; i++) {
                 // Escoge un índice al azar
-                let randomIndex = Math.floor(Math.random()*patients.length);
+                let randomIndex = Math.floor(Math.random()*(patients.length+1)+1);
                 //Ejecuta la funcón change location
                 changeLocation(randomIndex)
             }
@@ -315,8 +315,7 @@ crossorigin=""></script>
                 });   
             }
         }
-
-
+        getLiveLocation()
         getDataMX()
 
     </script>
