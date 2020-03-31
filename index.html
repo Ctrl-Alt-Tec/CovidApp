@@ -95,6 +95,18 @@ crossorigin=""></script>
     
     <!--Acá está el código con la lógica del programa-->
     <script>
+        
+
+        //Funcion para obtener geolocacilacion
+         if (navigator.geolocation) { //check if geolocation is available
+                navigator.geolocation.getCurrentPosition(function(position){
+                  console.log(position);
+                });   
+            }
+
+        //guardamos las coordenadas del usuario   
+        var latitudeUser =  position.coords.latitude;
+        var longitudUser = position.coords.longitude;
 
         // Límites de la ciudad de mexico
         const mexicoCityBoundaries = {
@@ -121,6 +133,8 @@ crossorigin=""></script>
             {id: 11, coords: [19.442323, -99.142212], infection: 0, recents: []},
             {id: 12, coords: [19.482323, -99.142212], infection: 0, recents: []},
             {id: 13, coords: [19.422323, -99.142212], infection: 0, recents: []},
+            {id: 14, coords: [latitudeUser,longitudUser], infection: 0, recents: []}
+
         ] 
         //esta línea de código incializa el mapa de CDMX
         var map = L.map('mapid').setView([19.432608, -99.133209], 13)
@@ -210,15 +224,7 @@ crossorigin=""></script>
         function diagnoseSick(id){
 
         }
-        //Funcion para obtener geolocacilacion
-        if (navigator.geolocation) { //check if geolocation is available
-                navigator.geolocation.getCurrentPosition(function(position){
-                  console.log(position);
-                });   
-            }
-        var latitudeUser =  position.coords.latitude;
-        var longitudUser = position.coords.longitude;
-        
+
     </script>
 </body>
 </html>
