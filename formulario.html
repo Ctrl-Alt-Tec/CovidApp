@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HackQuarantine</title>
+    <style>
+        html, body{
+            margin: 0px;
+            padding: 0px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        hr{
+            width: 100%;
+        }
+        /*Encabezado*/
+        #header2{
+            padding: 18px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+            font-size: 2em;
+            z-index: 2;
+            position: relative;
+        }
+
+        #sintomas{
+            display: none;
+        }
+
+
+    </style>
+</head>
+
+    <body>
+    <!--Header-->
+    <div id="header2">
+        CovidApp. Status Check
+    </div>
+
+    <form action="ejemplo.php" method="get">
+        <p>Nombre: <input type="text" name="nombre" size="40"></p>
+        <p>Año de nacimiento: <input type="number" name="nacido" min="1900"></p>
+        <p>Sexo:
+          <input type="checkbox" name="hm" value="h"> Hombre
+          <input type="checkbox" name="hm" value="m"> Mujer
+        </p>
+        <p>¿Cuál es tu diagnóstico oficial de COVID 19?:
+            <input type="checkbox" name="hm" value="h" > Positivo
+            <input type="checkbox" name="hm" value="m" > Negativo
+          </p>
+          <p>¿Tienes sospechas de padecer COVID 19?:
+            
+            <input type="checkbox" name="hm" value="m" id="sospechaSi" > Sí
+            <input type="checkbox" name="hm" value="m" id="sospechaSi" > No
+          </p>
+
+          <div  id="sintomas" >
+          <p>¿Qué síntomas presentas?:
+              <br>
+            <input type="checkbox" name="hm" value="h"  > Fiebre
+            <br>
+            <input type="checkbox" name="hm" value="m"  > Tos
+            <br>
+            <input type="checkbox" name="hm" value="m"  > Dificultad para respirar
+            <br>
+            <input type="checkbox" name="hm" value="m"  > Cansancio
+            <br>
+            <input type="checkbox" name="hm" value="m"  > Dolor de garganta
+            <br>
+            <input type="checkbox" name="hm" value="m"  > Dolores en general
+            <br>
+            <input type="checkbox" name="hm" value="m"  > Goteo de la nariz
+            <br>
+            <input type="checkbox" name="hm" value="m"  > Diarrea
+          </p>
+          </div>
+
+        <p>
+          <input type="submit" value="Enviar">
+          <input type="reset" value="Borrar">
+        </p>
+      </form>
+    </body>
+
+    <script>
+        //se guarda la respuesta de si es sospechoso o no
+        var estaContagiado = document.querySelector("#sospechaSi")
+        // se guarda toda la rpegunta de sintoma
+        var sintomas = document.querySelector("#sintomas")
+        //Para agregar la pregunta de sintomas
+        estaContagiado.addEventListener("change", function(){
+            if(estaContagiado.checked) sintomas.style.display = "block"
+            else sintomas.style.display = "none"
+})
+
+    </script>
