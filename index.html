@@ -176,7 +176,7 @@ crossorigin=""></script>
             minLong: -98.8,
             maxLong: -99.4,
         }
-        const radius = 3000;
+        const radius = 1000;
 
         // ESTO ES UN ARRAY CON LOS DATOS DE CADA PACIENTE: su id, lat, long, y probabilidad de estar infectadx
         let patients = [
@@ -189,7 +189,7 @@ crossorigin=""></script>
             {id: 6, coords: [19.422303, -99.142202], infection: 0, recents: []},
             {id: 7, coords: [19.432728, -99.132539], infection: 0, recents: []},
             {id: 8, coords: [19.434723, -99.122539], infection: 0, recents: []},
-            {id: 9, coords: [19.432723, -99.142532], infection: 0, recents: []},
+            {id: 9, coords: [19.432723, -99.142532], infection: 0.3, recents: []},
             {id: 10, coords: [19.442723, -99.125312], infection: 0, recents: []},
             {id: 11, coords: [19.442323, -99.125312], infection: 0, recents: []},
             {id: 12, coords: [19.482323, -99.125312], infection: 0, recents: []},
@@ -210,6 +210,10 @@ crossorigin=""></script>
         })
         let iconHappy = L.icon({
             iconUrl: 'happy.png', 
+            iconSize: [40,40],
+        })
+        let iconCompromised = L.icon({
+            iconUrl: 'compromised.png', 
             iconSize: [40,40],
         })
 
@@ -237,7 +241,7 @@ crossorigin=""></script>
             //Ejecuta elcódigo para cada persona
             for (let i = 0; i < randomCounter; i++) {
                 // Escoge un índice al azar
-                let randomIndex = Math.floor(Math.random()*(patients.length+1)+1);
+                let randomIndex = Math.floor(Math.random()*(patients.length-1)+1);
                 //Ejecuta la funcón change location
                 changeLocation(randomIndex)
             }
@@ -246,6 +250,7 @@ crossorigin=""></script>
         })
 
         function changeLocation(id){
+            console.log(id)
             // Genera coordenadas aleatorias
             let newCoords = [
                 Math.random()*(mexicoCityBoundaries.maxLat - mexicoCityBoundaries.minLat) + mexicoCityBoundaries.minLat,
@@ -256,42 +261,58 @@ crossorigin=""></script>
             //Actualiza las coordenadas en los datos
             patients[id].coords = newCoords;
             //Crea una copia temporal de patients
-            let nearestPoint = [...patients]
-                .sort((a, b) => map.distance(newCoords, a.coords) - map.distance(newCoords, b.coords) ) // Los ordena de acuerdo a su distancia
+            
+            let nearestPoint = [...patients].sort((a, b) => map.distance(newCoords, a.coords) - map.distance(newCoords, b.coords) ) // Los ordena de acuerdo a su distancia
+
 
             if( map.distance(newCoords, nearestPoint[1].coords) < radius){
                 console.log("%c Infection", "font-size: 2em")
-                //alert("Infección 🦠")
                 let infected_id = nearestPoint[1].id;
-                //patients[id].recents.push(infected_id);
-                //patients[infected_id].recents.push(id);
-                patients[id].infection += (1/3)*patients[infected_id].infection;
-                patients[infected_id].infection += (1/3)*patients[id].infection;
-                
+
+                diagnoseSick(id,  (1/3)*patients[infected_id].infection)
+                diagnoseSick(infected_id,  (1/3)*patients[id].infection)
+
+                patients[id].recents.push(infected_id)
+                patients[infected_id].recents.push(id)
+
+                updatePatientInfo(id)
+                updatePatientInfo(infected_id)
+
+
                 console.log(patients[id], patients[infected_id])
 
-                if(patients[id].infection > 0){
-                    markers[id].setIcon(iconSick).setPopupContent(JSON.stringify(patients[id]))
-                }
-                if(patients[infected_id]>0){
-                    markers[infected_id].setIcon(iconSick).setPopupContent(JSON.stringify(patients[infected_id]))
-                }
-
-            document.querySelector("#simulation_cases").innerHTML = patients.filter(l=>l.infection>0).length
-
-
+                document.querySelector("#simulation_cases").innerHTML = patients.filter(l=>l.infection>0).length
             } else {
                 console.log("%c Clean", "font-size: 2em; color: green")
             }
-            //console.table(nearestPoint)
         }
 
-        function diagnoseSick(id){
+        function diagnoseSick(id, percentage, propagate=false){
+            patients[id].infection+=percentage;
+            if(patients[id].infection > 0.5 && propagate){
+                [...new Set(patients[id].recents)].forEach(l=>{
+                    diagnoseSick(l, (1/3)*patients[id].infection, false)
+                    //updatePatientInfo(l)
+                })
+            }
+        }
 
+        function updatePatientInfo(id){
+            if(patients[id].infection > 0 && patients[id].infection < 0.5){
+                markers[id].setIcon(iconCompromised)
+            }
+            else if(patients[id].infection > 0.5){
+                markers[id].setIcon(iconSick)
+            }
+            markers[id].setPopupContent(JSON.stringify(patients[id]))
         }
 
         function getDataMX(){
-            fetch('https://thevirustracker.com/free-api?countryTimeline=MX').then(data=>data.json()).then(data=>{
+            fetch('https://thevirustracker.com/free-api?countryTimeline=MX', {
+                headers: [
+                    ["Origin", "https://ctrl-alt-tec.github.io"]
+                ]
+            }).then(data=>data.json()).then(data=>{
                 //console.log(data.timelineitems[0])
                 let allDates = Object.keys(data.timelineitems[0]).filter(l=>l!="stat").sort((a,b)=>new Date(a)-new Date(b))
                 let today = [...allDates].pop()
