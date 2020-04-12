@@ -1,6 +1,6 @@
 # CovidApp
+![](icon.png)
 Repository for HackQuarantine Project
-
 > Team Ctrl-Alt-Tec @Ctrl-Alt-Tec/hackquarantine-02
 
 Made with 💙 by [Ctrl Alt Tec](https://ctrl-alt-tec.hackclub.com) with the support of:
