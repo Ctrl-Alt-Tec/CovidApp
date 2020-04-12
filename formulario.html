@@ -4,94 +4,177 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HackQuarantine</title>
+      
     <style>
-        html, body{
-            margin: 0px;
+      
+      #header{
+        padding: 18px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+        font-size: 2em;
+        z-index: 2;
+        position: relative;
+        background: white;
+        display: flex;
+        align-items: center;
+      }
+
+      #header img{
+            height: 40px;
+            margin: 8px;
+        }
+
+      html, body{
+          background: skyblue;
+          background-image: url('https://media.idownloadblog.com/wp-content/uploads/2017/02/alex-muench-minimalist-ice-landscae-wallpaper-5120x2880.png');
+          background-repeat: no-repeat;
+          background-size: cover;
+          margin: 0px;
+          height: 100vh;
+          
+      }
+
+      form{
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+      }
+      form>*{
+        background: rgb(248, 253, 253);
+        flex: 1;
+        flex-shrink: 0;
+        margin: 24px;
+        padding: 24px;
+        font-size: 20px;
+        color: rgb(92, 112, 243);
+        box-sizing: border-box;
+      }
+
+      form>.submit{
+        width: 100%;
+        flex: 0 0 auto;
+        background: transparent;
+        text-align: center;
+      }
+      form>.submit input{
+        padding: 4px;
+        font-size: 1em;
+      }
+
+        /* div.general {
+          background: rgb(248, 253, 253);
+          color: rgb(92, 112, 243);
+          border: 10px solid rgba(252, 253, 253, 253);
+          padding: 0px;
+          margin: 0px;
+          width: 400px;
+          height: 550px;
+          position: absolute;
+          top: 150px;
+          left:250px;
+          font-size: 20px;
+          overflow: hidden;
+        }
+
+        div.sintomas {
+            background: rgb(246, 256, 255);
+            color: rgb(92, 112, 243);
+            width: 400px;
+            border: 10px solid rgb(252, 253, 253);
             padding: 0px;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-        hr{
-            width: 100%;
-        }
-        /*Encabezado*/
-        #header2{
-            padding: 18px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-            font-size: 2em;
-            z-index: 2;
-            position: relative;
-        }
+            margin: 0px;
+            height: 550px;
+            position:absolute;
+            top: 150px;
+            left: 700px;
+            font-size: 20px;
+            overflow: hidden;
+        } */
 
-        #sintomas{
-            display: none;
-        }
-
-
+       
     </style>
 </head>
 
     <body>
-    <!--Header-->
-    <div id="header2">
-        CovidApp. Status Check
-    </div>
+    <!--titulo-->    
+    <div id="header">
+      <img src="https://ctrl-alt-tec.hackclub.com/img/logo-block.png" alt="" srcset="">
+      CovidApp. Status Check
+  </div>
 
-    <form action="ejemplo.php" method="get">
-        <p>Nombre: <input type="text" name="nombre" size="40"></p>
-        <p>Año de nacimiento: <input type="number" name="nacido" min="1900"></p>
-        <p>Sexo:
+    <!--datos personales-->
+    <form>
+      <div class="general">
+        <p><b>Nombre:</b> <p></p> <input type="text" name="nombre" size="40" ></p>
+        <p><b>Año de nacimiento: </b> <p></p> <input type="number" name="nacido" min="1900"></p>
+        <p><b>Sexo: </b>
           <input type="checkbox" name="hm" value="h"> Hombre
           <input type="checkbox" name="hm" value="m"> Mujer
+          <input type="checkbox" name="hm" value="o"> Otro
         </p>
-        <p>¿Cuál es tu diagnóstico oficial de COVID 19?:
-            <input type="checkbox" name="hm" value="h" > Positivo
-            <input type="checkbox" name="hm" value="m" > Negativo
-          </p>
-          <p>¿Tienes sospechas de padecer COVID 19?:
-            
-            <input type="checkbox" name="hm" value="m" id="sospechaSi" > Sí
-            <input type="checkbox" name="hm" value="m" id="sospechaSi" > No
-          </p>
 
-          <div  id="sintomas" >
-          <p>¿Qué síntomas presentas?:
-              <br>
-            <input type="checkbox" name="hm" value="h"  > Fiebre
-            <br>
-            <input type="checkbox" name="hm" value="m"  > Tos
-            <br>
-            <input type="checkbox" name="hm" value="m"  > Dificultad para respirar
-            <br>
-            <input type="checkbox" name="hm" value="m"  > Cansancio
-            <br>
-            <input type="checkbox" name="hm" value="m"  > Dolor de garganta
-            <br>
-            <input type="checkbox" name="hm" value="m"  > Dolores en general
-            <br>
-            <input type="checkbox" name="hm" value="m"  > Goteo de la nariz
-            <br>
-            <input type="checkbox" name="hm" value="m"  > Diarrea
-          </p>
-          </div>
+        <p><b>¿Cuál es tu diagnóstico oficial de Covid-19?</b>
+          <p></p>
+          <input type="checkbox" name="hm" value="h" > Positivo
+          <input type="checkbox" name="hm" value="m" > Negativo
+        </p>
+        <hr>
+        <p><b>¿Tienes sospechas de padecer COVID 19?</b>
+          <p></p>            
+          <input type="checkbox" name="hm" value="m" id="sospechaSi" > Sí
+          <input type="checkbox" name="hm" value="m" id="sospechaSi" > No
+      </p>
 
-        <p>
+      </div>
+
+
+      <!--sintomas-->
+      <div class= "sintomas">
+        <p><b>¿Qué síntomas presentas?:</b>
+            <p></p>
+            <br>
+          <input type="checkbox" name="sintomas" value="h"  > Fiebre
+          <p></p>
+          <br>
+          <input type="checkbox" name="sintomas" value="m"  > Tos
+          <p></p>
+          <br>
+          <input type="checkbox" name="sintomas" value="m"  > Dificultad para respirar
+          <p></p>
+          <br>
+          <input type="checkbox" name="sintomas" value="m"  > Cansancio
+          <p></p>
+          <br>
+          <input type="checkbox" name="sintomas" value="m"  > Dolor de garganta
+          <p></p>
+          <br>
+          <input type="checkbox" name="sintomas" value="m"  > Dolores en general
+          <p></p>
+          <br>
+          <input type="checkbox" name="sintomas" value="m"  > Goteo de la nariz
+          <p></p>
+          <br>
+          <input type="checkbox" name="sintomas" value="m"  > Diarrea
+          <p></p>
+
+          <br>
+          <input type="checkbox" name="sintomas" value="m"  > No presento síntomas
+          <p></p>
+
+        </p>
+      </div>
+
+      <!--botones de enviar y borrar-->
+        <div class= "submit">
           <input type="submit" value="Enviar">
           <input type="reset" value="Borrar">
-        </p>
+        </div>
+        
       </form>
     </body>
 
     <script>
-        //se guarda la respuesta de si es sospechoso o no
-        var estaContagiado = document.querySelector("#sospechaSi")
-        // se guarda toda la rpegunta de sintoma
-        var sintomas = document.querySelector("#sintomas")
-        //Para agregar la pregunta de sintomas
-        estaContagiado.addEventListener("change", function(){
-            if(estaContagiado.checked) sintomas.style.display = "block"
-            else sintomas.style.display = "none"
-})
-
+      document.querySelector('form').addEventListener('submit', (e)=>{
+        e.preventDefault();
+        window.location.href = "index.html?disease=0.4"
+      })
     </script>

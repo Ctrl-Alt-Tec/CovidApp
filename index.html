@@ -35,6 +35,23 @@ crossorigin=""></script>
             font-size: 2em;
             z-index: 2;
             position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        #header>span{
+            display: flex;
+            align-items: center;
+        }
+        #header img{
+            height: 40px;
+            margin: 8px;
+        }
+        #header a{
+            font-size: 0.8em;
+            padding: 8px 16px;
+            background: rgb(230,240,244);
+            text-decoration: none;
         }
         /*Mapa*/
         #mapid { 
@@ -108,7 +125,13 @@ crossorigin=""></script>
 <body>
     <!--Header-->
     <div id="header">
-        CovidApp.
+        <span>
+            <img src="https://ctrl-alt-tec.hackclub.com/img/logo-block.png" alt="" srcset="">
+            CovidApp.
+        </span>
+
+        <a href="formulario.html">Diagnóstico</a>
+
     </div>
    <!--mapa leafts-->
     <div id="mapid">
@@ -117,6 +140,11 @@ crossorigin=""></script>
     <div id= "window">
 
         <button>Actualizar ubicación</button>
+        <br>
+        <fieldset>
+            <legend name="prob_legend">Probabilidad de enfermedad</legend>
+            <input type="range" min="0" max="1" step="0.1" style="width: 100%;" name="prob">
+        </fieldset>
         <br>
 
         <div id="data" class="data_row">
@@ -308,22 +336,21 @@ crossorigin=""></script>
         }
 
         function getDataMX(){
-            fetch('https://thevirustracker.com/free-api?countryTimeline=MX', {
-                headers: [
-                    ["Origin", "https://ctrl-alt-tec.github.io"]
-                ]
+            fetch('https://pomber.github.io/covid19/timeseries.json', {
             }).then(data=>data.json()).then(data=>{
                 //console.log(data.timelineitems[0])
-                let allDates = Object.keys(data.timelineitems[0]).filter(l=>l!="stat").sort((a,b)=>new Date(a)-new Date(b))
-                let today = [...allDates].pop()
+                //let allDates = Object.keys(data['Mexico'].timelineitems[0]).filter(l=>l!="stat").sort((a,b)=>new Date(a)-new Date(b))
+                //let today = [...allDates].pop()
 
 
-                let todayData = data.timelineitems[0][today]
+                /*let todayData = data['Mexico'].timelineitems[0][today]
                 console.log(todayData)
-
-                document.querySelector('#data_cases').innerHTML = todayData.total_cases;
-                document.querySelector('#data_recoveries').innerHTML = todayData.total_recoveries;
-                document.querySelector('#data_deaths').innerHTML = todayData.total_deaths;
+                */
+                let todayData = data['Mexico'][data['Mexico'].length-1]
+                document.querySelector('#data_cases').innerHTML = todayData.confirmed;
+                document.querySelector('#data_recoveries').innerHTML = todayData.recovered;
+                document.querySelector('#data_deaths').innerHTML = todayData.deaths;
+                console.log(data['Mexico'][data['Mexico'].length-1])
             })
         }
 
@@ -338,6 +365,12 @@ crossorigin=""></script>
         }
         getLiveLocation()
         getDataMX()
+
+        document.querySelector('[name="prob"]').addEventListener('change', (e)=>{
+            document.querySelector('[name="prob_legend"]').innerHTML = `Probabilidad de enfermedad (${e.target.value})`;
+            diagnoseSick(0, e.target.value, true)
+        })
+
 
     </script>
 </body>
